@@ -1,0 +1,205 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage[section]{placeins}
+\graphicspath{ {./img/} }
+\usepackage[a4paper]{geometry}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{tabto}
+\usepackage[english]{babel}
+\usepackage{fancyhdr}
+\usepackage{chemformula}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{float}
+\usepackage{tabto}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage[section]{placeins}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{gensymb}
+\usepackage{array}
+\usetikzlibrary{shapes, arrows}
+
+% Document Parameters
+\newcommand\reportTitle{ENEL420 Formula Sheet}
+\newcommand\subTitle{The bitchiest of all the exams}
+
+\newcommand\todo[1]{\textcolor{red}{#1}}
+
+
+\author{{\LARGE Josiah Craw}\vspace{10pt}\\35046080\\jcr124@uclive.ac.nz\\}
+\title{\rule{\textwidth}{0.8pt} \\ {\huge \textbf{\reportTitle}}\\{\large \subTitle} \rule{\textwidth}{0.8pt}}
+
+\begin{document}
+% Titlepage
+\maketitle
+\newpage
+
+\section{Interpolation}
+Interpolation, convolution with a kernel function:
+\begin{equation}
+f(k_0) = \sum_k f(k) \frac{K(k_0-k)}{\textrm{convolution kernel}} 
+\end{equation}
+Where $f(k_0)$ is the interpolated signal and $f(k)$ is the data
+
+\subsection{Kernels}
+
+Nearest Neighbour:
+\begin{equation}
+K(x)=\textrm{rect}(x) =
+\begin{cases}
+    1 \quad |x| \leq \frac{1}{2}\\
+    0 \quad \textrm{otherwise}
+\end{cases}
+\end{equation}
+
+Linear:
+\begin{equation}
+    K(x)=\textrm{tri}(x) =
+    \begin{cases}
+        1 - |x| \quad |x| < 1\\
+        0 \quad \textrm{otherwise}
+    \end{cases}
+\end{equation}
+
+Sinc:
+\begin{equation}
+    K(x) = \textrm{sinc}(x) = \frac{\textrm{sin}(\pi x)}{\pi x}
+\end{equation}
+
+\section{Aliasing}
+General Case to avoid aliasing:
+\begin{equation}
+    \frac{2f_u}{n} < f_s < \frac{2f_l}{n-1}
+\end{equation}
+
+Where,
+\begin{equation}
+    1 \leq n \leq I_{MLT}\left(\frac{f_u}{B}\right)
+\end{equation}
+
+$I_{MLT}$ is Maximum integer less than
+
+\section{Z-Transform}
+\begin{equation}
+    F(z)=\sum_{n=0}^{\infty}f(n)z^{-n}
+\end{equation}
+
+Or,
+\begin{equation}
+    F(s)=\sum_{n=0}^{\infty}f(nT)e^{-nTs}
+\end{equation}
+
+\section{Quantisation Noise}
+
+RMS quantisation noise:
+\begin{equation}
+    \sigma = \frac{\Delta}{\sqrt{12}} = \frac{\Delta}{2\sqrt{3}}
+\end{equation}
+
+Noise Power:
+\begin{equation}
+    \textrm{NP} \propto \Delta^2
+\end{equation}
+
+Therefore is noise power is decreased by $\frac{1}{2}$,
+\begin{equation}
+    10\textrm{log}_{10}\left(\frac{1}{2}^2\right) = 6\textrm{dB}
+\end{equation}
+
+\section{Filters}
+
+Direct realisation:
+\begin{equation}
+    H(z) = \frac{\sum_{k=0}^K b_k z^{-k}}{1+\sum_{m=1}^M a_m z^{-m}}
+\end{equation}
+
+Linear Phase, if a filter has linear phase it can be expressed in the form:
+\begin{equation}
+    H(\omega) = |H(\omega)|e^{j\theta(\omega)}
+\end{equation}
+
+Where,
+\begin{equation}
+    \theta(\omega) = -(\alpha\omega+\beta)
+\end{equation}
+
+Windowing the impulse response is defined by the inverse Fourier Transform,
+\begin{equation}
+    h_D(n) = \frac{1}{2\pi} \int_{-\pi}^\pi H_D(\omega)e^{j\omega n} \quad d\omega 
+\end{equation} 
+
+non-recursive FIR Filters,
+\begin{equation}
+    y(n) = b_0 x(n) + b_1 x(n-1)
+\end{equation}
+
+Recursive,
+\begin{equation}
+    y(n) = a y(n-1) + bx(n)
+\end{equation}
+
+So,
+\begin{equation}
+    H(z) = \sum_{n=0}^{N-1} \frac{1}{N} \sum_{k=0}^{N-1} H(k) e^{\frac{j2\pi kn}{N}}z^{-n} 
+\end{equation}
+
+\section{Detection Theory}
+
+Likelihood Ratio,
+\begin{equation}
+    \frac{p(\textbf{x}|H_0)}{p(\textbf{x}|H_1)}
+\end{equation}
+
+\subsection{Likelihood ratio test}
+
+Choose null hypothesis if,
+\begin{equation}
+    \frac{p(\textbf{x}|H_0)}{p(\textbf{x}|H_1)} > \gamma
+\end{equation}
+
+Choose alternitive hypothesis if,
+\begin{equation}
+    \frac{p(\textbf{x}|H_0)}{p(\textbf{x}|H_1)} \leq \gamma
+\end{equation}
+
+\subsection{Log Likelihood}
+Choose null hypothesis if,
+\begin{equation}
+    -x[0] + \frac{1}{2} > 0 \leftrightarrow x[0] < \frac{1}{2}
+\end{equation}
+
+Choose alternitive hypothesis if,
+\begin{equation}
+    -x[0] + \frac{1}{2} \leq 0 \leftrightarrow x[0] \geq \frac{1}{2}
+\end{equation}
+
+Solve for $\gamma$ using,
+\begin{equation}
+    P_{FA} = \int_{\textbf{x}:L(\textbf{x})<\gamma}p(\textbf{x}|H_0)d\textbf{x}
+\end{equation}
+
+\subsection{Missed Detection}
+
+The probability of missed detection is,
+\begin{equation}
+    P_M = p(x[0] \leq \frac{1}{2}| H_1) = p(x[0] \leq \frac{1}{2}|u = 1)
+\end{equation}
+
+\subsection{Detection Error Rate}
+
+\begin{equation}
+    P_{FA}P(H_0) + P_MP(H_1)
+\end{equation}
+
+Where $P_{FA}$ is the probability of falsely selecting the alternative hypothesis and $P_M$ is the probability
+of falsely selecting the null hypothesis.
+
+\subsection{Detection Threshold}
+
+
+\end{document}
