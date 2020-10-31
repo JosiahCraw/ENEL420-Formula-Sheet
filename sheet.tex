@@ -31,7 +31,7 @@
 \newcommand\todo[1]{\textcolor{red}{#1}}
 
 
-\author{{\LARGE Josiah Craw}\vspace{10pt}\\35046080\\jcr124@uclive.ac.nz\\}
+\author{{\LARGE Josiah Craw}\vspace{10pt}\\jcr124@uclive.ac.nz\\}
 \title{\rule{\textwidth}{0.8pt} \\ {\huge \textbf{\reportTitle}}\\{\large \subTitle} \rule{\textwidth}{0.8pt}}
 
 \begin{document}
@@ -200,6 +200,128 @@ Where $P_{FA}$ is the probability of falsely selecting the alternative hypothesi
 of falsely selecting the null hypothesis.
 
 \subsection{Detection Threshold}
+To find the detection threshold use the following,
+\begin{equation}
+    P_{FA} = \int_{\textbf{x}} 1(\textrm{log}(L(\textbf{x})) - c < \gamma) \cdot p(\textrm{log}(L(\textbf{x})) - c|H_0) \quad d\textbf{x} 
+\end{equation}
 
+\subsection{NP Detector of Known Signal in WGN}
+The signal likelihood under $w[n]~N(0,\sigma^2)$ (Normal distribution) for the null hypothesis,
+\begin{equation}
+    p(\textbf{x}|H_0) = \prod_{n=0}^{N-1} \frac{1}{\sqrt{2\pi}\sigma}\textrm{exp}\left(-\frac{x[n]^2}{2\sigma^2}\right)
+\end{equation}
+
+For the alternative hypothesis,
+\begin{equation}
+    p(x|H_1) = \prod_{n=0}^{N-1}  \frac{1}{\sqrt{2\pi}\sigma}\textrm{exp}\left(-\frac{(x[n]-s[n])^2}{2\sigma^2}\right)
+\end{equation}
+
+Therefore the Log-Likelihood ratio test is,
+\begin{equation}
+    \textrm{log}(L(\textbf{x})) = log\left(\frac{p(\textbf{x}|H_0)}{p(\textbf{x}|H_1)}\right) = \frac{1}{2\sigma^2} \sum_{n=0}^{N-1} (s[n]^2 - 2s[n]x[n])
+\end{equation}
+
+\subsection{Multivariate Gaussian PDF}
+
+Null Hypothesis,
+\begin{equation}
+    P(\textbf{x}|H_0) = \frac{\textbf{1}}{(\sqrt{2\pi}\sigma)^N} \textrm{exp} \left(- \frac{1}{2\sigma^2} \textbf{x}^T \textbf{x} \right) (\delta = \sigma^2\textbf{I})
+\end{equation}
+
+Alternative Hypothesis,
+\begin{equation}
+    P(\textbf{x}|H_1) = \frac{\textbf{1}}{ | 2\pi(\textbf{C}+\sigma^2\textbf{I})| } exp \left(-\frac{1}{2}\textbf{x}^T(\textbf{C}+\sigma^2\textbf{I})^{-1}\textbf{x}\right)(\Delta = \textbf{C} + \sigma^2\textbf{I})
+\end{equation}
+
+LLR,
+\begin{equation}
+    \textrm{log}(L(\textbf{x})) \propto -\textbf{x}^T\textbf{C}(\textbf{C}+\sigma^2\textbf{I})^{-1}\textbf{x}
+\end{equation}
+
+Simplified,
+\begin{equation}
+    \sum_{n=0}^{N=1} \frac{\delta_n}{\delta_n+\sigma^2}y[n]^2
+\end{equation}
+
+\subsection{Mixture Model}
+\begin{equation}
+    p(\textbf{x} | \theta) = \sum_{k=1}^K w_k p_k (\textbf{x} | \theta)
+\end{equation}
+
+Where, $p_k(\textbf{x}|\theta)$ is the $k^{\textrm{th}}$ base distribution and is the mixing weight of $p_k(\textbf{x}|\theta)$ Where,
+\begin{equation}
+    w_k \geq 0 \quad \textrm{and} \quad \sum_{k=1}^K w_k = 1
+\end{equation}
+
+\section{Fourier Transform}
+
+\subsection{Properties}
+
+Shift Theorem
+\begin{equation}
+    x(t-t_0) \leftrightarrow X(f)\textrm{exp}(-j2\pi ft_0)
+\end{equation}
+
+Scaling
+\begin{equation}
+    x(at) \leftrightarrow \frac{1}{ |a| } X \left(\frac{f}{a}\right)
+\end{equation}
+
+Convolution
+\begin{equation}
+    x(t) \otimes y(t) \leftrightarrow X(f)Y(f)
+\end{equation}
+
+For a real signal
+\begin{equation}
+    X(-f) = X^*(f)
+\end{equation}
+
+DFT
+\begin{equation}
+    X(k) = \frac{1}{N} \sum_{n=0}^{N-1} x(n) \textrm{exp}(-j2\pi nk / N)
+\end{equation}
+
+IDFT
+\begin{equation}
+    x(n) = \sum_{k=0}^{N-1} X(k) \textrm{exp} (j2\pi nk/N)
+\end{equation}
+
+Parseval's Theorem
+\begin{equation}
+    \sum_{n=0}^{N-1} [f(n)]^2 = \sum_{k=0}^{N-1}|F(k)|^2
+\end{equation}
+
+2D Fourier Transform can be expressed as a weighted sum of harmonics,
+\begin{equation}
+    \textrm{exp}(j2\pi (ux+vy))
+\end{equation}
+
+\subsection{2D FT}
+
+\begin{equation}
+    F(u,v) = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \textrm{exp} (-j2\pi (ux+vy))dx dy
+\end{equation}
+
+2D DFT,
+\begin{equation}
+    F(p,q) = \frac{1}{N} \sum_{m=0}^{N-1} \left(\frac{1}{N} \sum_{n=0}^{N-1} f(m,n) \textrm{exp} (-j2\pi qn/N)\textrm{}\right) \textrm{exp} (-j2\pi pm / N)
+\end{equation}
+
+Rotation of an image rotating by $\alpha$,
+\begin{equation}
+    F_\alpha (\rho;\phi) = \int_0^{2\pi} \int_0^{\infty} f(r;\theta) \textrm{exp} (-j2\pi\rho r \textrm{cos}(\theta-\phi))r drd\theta
+\end{equation}
+
+So,
+\begin{equation}
+    F_\alpha (\rho;\phi) = F(\rho;\phi-\alpha)
+\end{equation}
+
+\section{Projection}
+
+\begin{equation}
+    P(\theta,x') = \int_{-\infty}^\infty f(x',y')dy'
+\end{equation}
 
 \end{document}
