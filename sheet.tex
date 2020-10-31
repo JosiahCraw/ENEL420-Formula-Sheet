@@ -6,6 +6,7 @@
 \usepackage{hyperref}
 \usepackage[utf8]{inputenc}
 \usepackage{tabto}
+\usepackage{physics}
 \usepackage[english]{babel}
 \usepackage{fancyhdr}
 \usepackage{chemformula}
@@ -322,6 +323,60 @@ So,
 
 \begin{equation}
     P(\theta,x') = \int_{-\infty}^\infty f(x',y')dy'
+\end{equation}
+
+\subsection{Wiener filtering}
+\begin{equation}
+    W(u,v) = \frac{H^*(u,v)}{ |H(u,v)|^2 + \Phi(u,v) }
+\end{equation}
+
+Where $\Phi(u,v)$ is an estimate of the spatial frequency dependent noise-to-signal power
+
+The estimate of the image spectrum is given by,
+\begin{equation}
+    \hat{F}(u,v) = G(u,v)W(u,v)
+\end{equation}
+
+If $H(u,v)$ is large,
+\begin{equation}
+    \hat{F}(u,v) \approx F(u,v) + \frac{N(u,v)}{H(u,v)} \approx F(u,v)
+\end{equation}
+
+However when $H(u,v)$ is small,
+\begin{equation}
+    \hat{F}(u,v) = G(u,v)\left(\frac{H^*(u,v)}{ |H(u,v)|^2 + \Phi}\right) \approx G(u,v) \frac{H^*(u,v)}{\Phi} \approx 0
+\end{equation}
+
+\section{Diffraction}
+
+The phase difference is,
+\begin{equation}
+    \phi = (d_1-d_2)\left(\frac{2\pi}{\lambda}\right) = (\vb{x} \cdot \vb{\hat{k_0}} - \vb{x} \cdot \vb{\hat{k}}) \left(\frac{2\pi}{\lambda}\right)
+\end{equation}
+
+So,
+\begin{equation}
+    \phi = -\vb{x} \cdot (\vb{k}-\vb{k_0})
+\end{equation}
+
+Therefore the total scattering is,
+\begin{equation}
+    \psi(\vb{k}) = \int f(\vb{x}) \textrm{exp}(i(\vb{k}-\vb{k_0}) \cdot \vb{x}) d\vb{x}
+\end{equation}
+
+The scattering vector is defined as,
+\begin{equation}
+    \vb{u} = (\vb{\hat{k}}-\vb{\hat{k_0}})/\lambda
+\end{equation}
+
+Therefore the scattered field in terms of $\vb{u}$ is,
+\begin{equation}
+    F(\vb{u})=\int f(\vb{x}) \textrm{exp}(i2\pi \vb{u} \cdot \vb{x}) d\vb{x}
+\end{equation}
+
+Therefore by taking the inverse Fourier transform the object can be reconstructed,
+\begin{equation}
+    f(\vb{x}) = \int F(\vb{u}) \textrm{exp} (-i2\pi \vb{u} \cdot \vb{x}) d\vb{u}
 \end{equation}
 
 \end{document}
