@@ -379,4 +379,37 @@ Therefore by taking the inverse Fourier transform the object can be reconstructe
     f(\vb{x}) = \int F(\vb{u}) \textrm{exp} (-i2\pi \vb{u} \cdot \vb{x}) d\vb{u}
 \end{equation}
 
+\newpage
+
+\section{Notes}
+\todo{NOTE: These are mostly guesses, I'm not very good at this subject} 
+
+\subsection{Bandpass sampling}
+Bandpass sampling is the uses the low bandwidth of a signal to allow for reduction
+in the sampling frequency, this is possible due to the Nyquist sampling rate
+designed for use in low pass systems. This results in a convolution with no overlap
+resulting in no aliasing while sampling at less than the Nyquist rate.
+
+
+\subsection{Le's Free Marks}
+Using the trace of the matrix,
+\begin{equation}
+    E(tr(a^T\psi_1\psi_2^Ta))
+\end{equation}
+
+And because,
+\begin{equation}
+    tr(AB) = tr(BA)
+\end{equation}
+
+Therefore,
+\begin{equation}
+    tr(\psi_1\psi_2^T)
+\end{equation}
+
+Which,
+\begin{equation}
+    tr(\psi_2^T\psi_1) = 0
+\end{equation}
+
 \end{document}
